@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dd8hex07rmcna"]
+
+[ext_resource type="PackedScene" uid="uid://blq3emvcymbhp" path="res://level.tscn" id="1_mi635"]
+[ext_resource type="PackedScene" uid="uid://dumue4qkb0r8s" path="res://character_body_3d.tscn" id="2_s8bxr"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1vivr"]
+size = Vector3(43.084335, 1.3808594, 61.891182)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1vivr"]
+size = Vector3(41.497734, 6.290039, 64.115326)
+
+[node name="platform" type="Node3D" unique_id=1385109127]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1144774247]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1091952022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.179391, -0.5230937, -5.5812664)
+mesh = SubResource("BoxMesh_1vivr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=2012714740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.031269, -2.6801758, -5.2754517)
+shape = SubResource("BoxShape3D_1vivr")
+
+[node name="level" parent="." unique_id=1760891227 instance=ExtResource("1_mi635")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5825293, 3.4212666, 0.8448429)
+
+[node name="level2" parent="." unique_id=1536685882 instance=ExtResource("1_mi635")]
+transform = Transform3D(1, 0, 0, 0, 0.9996104, 0.027910128, 0, -0.027910128, 0.9996104, 26.52384, 9.255448, 0)
+
+[node name="level3" parent="." unique_id=1114653382 instance=ExtResource("1_mi635")]
+transform = Transform3D(0.99999654, 0.0022524728, 0.0013135202, -0.0022508234, 0.99999666, -0.0012624571, -0.0013163445, 0.001259512, 0.99999833, 2.349248, 17.279806, 0)
+
+[node name="level4" parent="." unique_id=1899345861 instance=ExtResource("1_mi635")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.409286, 26.625126, 0)
+
+[node name="CharacterBody3D" parent="." unique_id=1896789144 instance=ExtResource("2_s8bxr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.113998, 5.0080194, -1.6784544)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1053157424]
+transform = Transform3D(0.12548079, 0, 0.99209607, 0, 1, 0, -0.99209607, 0, 0.12548079, 37.748432, 2.550788, -0.5938511)
+fov = 60.46163
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=536536800]
+transform = Transform3D(1, 0, 0, 0, 0.71753246, 0.6965251, 0, -0.6965251, 0.71753246, 0, 0, 26.50042)
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=928593430]
+transform = Transform3D(-0.13367319, -0.41289684, -0.9009149, 0.892751, -0.444854, 0.07141842, -0.43026403, -0.7947459, 0.42807916, 21.27581, 7.055806, -0.46473122)
+shadow_enabled = true
