@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://assets/characters/female/Witch.gltf" id="2_witch"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_enemy"]
+radius = 0.4
+height = 1.9
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_enemy")
+character = ExtResource("2_witch")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+shape = SubResource("CapsuleShape3D_enemy")

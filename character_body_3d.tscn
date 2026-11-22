@@ -1,20 +1,56 @@
 [gd_scene format=3 uid="uid://dumue4qkb0r8s"]
 
 [ext_resource type="Script" uid="uid://b6vsq4a6gw5hw" path="res://character_body_3d.gd" id="1_iwpo4"]
+[ext_resource type="PackedScene" path="res://assets/characters/male/male_runner.fbx" id="2_male"]
+[ext_resource type="Material" path="res://assets/characters/male/body_material.tres" id="3_body"]
+[ext_resource type="Material" path="res://assets/characters/male/top_material.tres" id="4_top"]
+[ext_resource type="Material" path="res://assets/characters/male/bottom_material.tres" id="5_bottom"]
+[ext_resource type="Material" path="res://assets/characters/male/hair_material.tres" id="6_hair"]
+[ext_resource type="Material" path="res://assets/characters/male/shoes_material.tres" id="7_shoes"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_3x3d0"]
-size = Vector3(2.9877014, 1, 2.9386444)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_runner"]
+radius = 0.4
+height = 1.8
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1vivr"]
-size = Vector3(3.169403, 0.8286133, 2.730835)
-
-[node name="CharacterBody3D" type="CharacterBody3D" unique_id=1896789144]
+[node name="CharacterBody3D" type="CharacterBody3D"]
+floor_snap_length = 0.3
 script = ExtResource("1_iwpo4")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1332861372]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5215912, 0, 0.23711395)
-mesh = SubResource("BoxMesh_3x3d0")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_runner")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1934248419]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6740265, 0.08569336, 0.41278076)
-shape = SubResource("BoxShape3D_1vivr")
+[node name="Model" parent="." instance=ExtResource("2_male")]
+
+[node name="Body" parent="Model/GeneralSkeleton" index="0"]
+surface_material_override/0 = ExtResource("3_body")
+
+[node name="Eyes" parent="Model/GeneralSkeleton" index="1"]
+surface_material_override/0 = ExtResource("3_body")
+
+[node name="Eyelashes" parent="Model/GeneralSkeleton" index="2"]
+surface_material_override/0 = ExtResource("3_body")
+
+[node name="Tops" parent="Model/GeneralSkeleton" index="3"]
+surface_material_override/0 = ExtResource("4_top")
+
+[node name="Shoes" parent="Model/GeneralSkeleton" index="4"]
+surface_material_override/0 = ExtResource("7_shoes")
+
+[node name="Bottoms" parent="Model/GeneralSkeleton" index="5"]
+surface_material_override/0 = ExtResource("5_bottom")
+
+[node name="Hair" parent="Model/GeneralSkeleton" index="6"]
+surface_material_override/0 = ExtResource("6_hair")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9063078, 0.42261827, 0, -0.42261827, 0.9063078, 0, 0, 0)
+collision_mask = 0
+spring_length = 7.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+fov = 70.0
+far = 600.0

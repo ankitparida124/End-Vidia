@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://trigger.gd" id="1_trigger"]
+[ext_resource type="Shader" path="res://stripes.gdshader" id="2_stripes"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_checker"]
+render_priority = 0
+shader = ExtResource("2_stripes")
+shader_parameter/color_a = Color(0.08, 0.08, 0.1, 1)
+shader_parameter/color_b = Color(1, 1, 1, 1)
+shader_parameter/count = Vector2(16, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pillar"]
+albedo_color = Color(0.46, 0.73, 0.0, 1)
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar"]
+material = SubResource("StandardMaterial3D_pillar")
+size = Vector3(1, 7, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_banner"]
+material = SubResource("ShaderMaterial_checker")
+size = Vector3(13, 1.6, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_finish"]
+size = Vector3(12, 6, 2)
+
+[node name="Finish" type="Area3D"]
+script = ExtResource("1_trigger")
+kind = 2
+
+[node name="PillarLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 3.5, 0)
+mesh = SubResource("BoxMesh_pillar")
+
+[node name="PillarRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3.5, 0)
+mesh = SubResource("BoxMesh_pillar")
+
+[node name="Banner" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+mesh = SubResource("BoxMesh_banner")
+
+[node name="Label3D" type="Label3D" parent="Banner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.32)
+modulate = Color(1, 0.85, 0.1, 1)
+outline_modulate = Color(0.1, 0.05, 0.2, 1)
+text = "FINISH"
+font_size = 120
+outline_size = 36
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("BoxShape3D_finish")

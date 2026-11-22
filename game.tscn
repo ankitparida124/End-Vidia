@@ -1,0 +1,580 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://game.gd" id="game"]
+[ext_resource type="PackedScene" uid="uid://dumue4qkb0r8s" path="res://character_body_3d.tscn" id="player"]
+[ext_resource type="PackedScene" path="res://hud.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://gpu_platform.tscn" id="platform"]
+[ext_resource type="PackedScene" uid="uid://dimgwg48226f8" path="res://gpu.tscn" id="gpu"]
+[ext_resource type="PackedScene" path="res://enemy.tscn" id="enemy"]
+[ext_resource type="PackedScene" path="res://spinner.tscn" id="spinner"]
+[ext_resource type="PackedScene" path="res://bounce_pad.tscn" id="bounce_pad"]
+[ext_resource type="PackedScene" path="res://checkpoint.tscn" id="checkpoint"]
+[ext_resource type="PackedScene" path="res://finish.tscn" id="finish"]
+[ext_resource type="PackedScene" path="res://assets/characters/female/Punk.gltf" id="punk"]
+[ext_resource type="PackedScene" path="res://assets/characters/female/Witch.gltf" id="witch"]
+[ext_resource type="PackedScene" path="res://assets/characters/female/Casual.gltf" id="casual"]
+[ext_resource type="PackedScene" path="res://assets/characters/female/Soldier.gltf" id="soldier"]
+[ext_resource type="PackedScene" path="res://assets/characters/female/Suit.gltf" id="suit"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_top_color = Color(0.1, 0.38, 0.92, 1)
+sky_horizon_color = Color(0.55, 0.78, 1, 1)
+sky_curve = 0.12
+ground_bottom_color = Color(0.1, 0.45, 0.85, 1)
+ground_horizon_color = Color(0.62, 0.84, 1, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="Sky_sky"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_world"]
+background_mode = 2
+sky = SubResource("Sky_sky")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.5
+ambient_light_energy = 0.6
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.4
+glow_bloom = 0.05
+fog_enabled = true
+fog_light_color = Color(0.62, 0.84, 1, 1)
+fog_density = 0.0015
+adjustment_enabled = true
+adjustment_saturation = 1.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_water"]
+albedo_color = Color(0.0, 0.4, 0.85, 1)
+metallic_specular = 0.8
+roughness = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+material = SubResource("StandardMaterial3D_water")
+size = Vector2(1200, 1200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cloud"]
+albedo_color = Color(1, 1, 1, 1)
+roughness = 1.0
+emission_enabled = true
+emission = Color(0.35, 0.42, 0.55, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_cloud"]
+material = SubResource("StandardMaterial3D_cloud")
+radius = 6.0
+height = 8.0
+
+[node name="Game" type="Node3D"]
+script = ExtResource("game")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_world")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 0, 30, 0)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 120.0
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22, -80)
+mesh = SubResource("PlaneMesh_water")
+
+[node name="Clouds" type="Node3D" parent="."]
+
+[node name="Course" type="Node3D" parent="."]
+
+[node name="Pickups" type="Node3D" parent="."]
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 8)
+
+[node name="HUD" parent="." instance=ExtResource("hud")]
+
+[node name="Cloud0_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.4570194335930466, 0, 0, 0, 0.874211660155828, 0, 0, 0, 1.4570194335930466, 108.8, 15.5, -244.1)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud0_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.5277632505144818, 0, 0, 0, 0.916657950308689, 0, 0, 0, 1.5277632505144818, 115.8, 15.9, -247.0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud0_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.1345377210966077, 0, 0, 0, 0.6807226326579646, 0, 0, 0, 1.1345377210966077, 122.8, 16.0, -244.2)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud1_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.3019465779244714, 0, 0, 0, 0.7811679467546828, 0, 0, 0, 1.3019465779244714, -113.1, 9.7, -188.1)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud1_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.1173443797206242, 0, 0, 0, 0.6704066278323745, 0, 0, 0, 1.1173443797206242, -106.1, 9.8, -191.3)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud1_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.4867747672389438, 0, 0, 0, 0.8920648603433662, 0, 0, 0, 1.4867747672389438, -99.1, 7.7, -190.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud2_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.8824445699548731, 0, 0, 0, 0.5294667419729239, 0, 0, 0, 0.8824445699548731, -92.7, 22.1, -43.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud2_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.8779444607957867, 0, 0, 0, 0.526766676477472, 0, 0, 0, 0.8779444607957867, -85.7, 22.5, -41.4)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud2_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.2952076745388432, 0, 0, 0, 0.7771246047233059, 0, 0, 0, 1.2952076745388432, -78.7, 21.9, -41.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud3_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9987412678860395, 0, 0, 0, 0.5992447607316237, 0, 0, 0, 0.9987412678860395, 70.2, 32.2, -142.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud3_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.8654840086366159, 0, 0, 0, 0.5192904051819696, 0, 0, 0, 0.8654840086366159, 77.2, 32.5, -144.3)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud3_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.0747805519666986, 0, 0, 0, 0.6448683311800192, 0, 0, 0, 1.0747805519666986, 84.2, 33.0, -143.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud4_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9215876277284039, 0, 0, 0, 0.5529525766370423, 0, 0, 0, 0.9215876277284039, -56.4, 17.4, -20.5)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud4_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.3345726852275162, 0, 0, 0, 0.8007436111365097, 0, 0, 0, 1.3345726852275162, -49.4, 18.3, -17.3)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud4_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.5003822494647108, 0, 0, 0, 0.9002293496788264, 0, 0, 0, 1.5003822494647108, -42.4, 16.9, -16.5)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud5_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.55574487608635, 0, 0, 0, 0.9334469256518099, 0, 0, 0, 1.55574487608635, 79.4, 18.6, 9.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud5_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.8485355420777758, 0, 0, 0, 0.5091213252466654, 0, 0, 0, 0.8485355420777758, 86.4, 19.2, 9.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud5_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.5944767515733074, 0, 0, 0, 0.9566860509439844, 0, 0, 0, 1.5944767515733074, 93.4, 19.6, 7.5)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud6_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.0843712876322769, 0, 0, 0, 0.6506227725793661, 0, 0, 0, 1.0843712876322769, 104.0, 15.6, 41.0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud6_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9745662198557437, 0, 0, 0, 0.5847397319134462, 0, 0, 0, 0.9745662198557437, 111.0, 14.6, 42.4)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud6_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.1183181428369862, 0, 0, 0, 0.6709908857021917, 0, 0, 0, 1.1183181428369862, 118.0, 16.5, 41.0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud7_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.455423870268593, 0, 0, 0, 0.8732543221611558, 0, 0, 0, 1.455423870268593, -82.9, 22.6, 21.4)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud7_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.132237213769359, 0, 0, 0, 0.6793423282616154, 0, 0, 0, 1.132237213769359, -75.9, 21.1, 25.0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud7_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.566184963171193, 0, 0, 0, 0.9397109779027157, 0, 0, 0, 1.566184963171193, -68.9, 20.5, 20.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud8_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9458742991849579, 0, 0, 0, 0.5675245795109747, 0, 0, 0, 0.9458742991849579, -99.7, 4.2, 3.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud8_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.227672769840083, 0, 0, 0, 0.7366036619040497, 0, 0, 0, 1.227672769840083, -92.7, 5.2, 4.9)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud8_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9003932099967816, 0, 0, 0, 0.5402359259980689, 0, 0, 0, 0.9003932099967816, -85.7, 6.0, 8.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud9_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.344460080849368, 0, 0, 0, 0.8066760485096208, 0, 0, 0, 1.344460080849368, -83.5, 31.7, 44.0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud9_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.1152960127802913, 0, 0, 0, 0.6691776076681748, 0, 0, 0, 1.1152960127802913, -76.5, 31.4, 44.0)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud9_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9524876300534464, 0, 0, 0, 0.5714925780320678, 0, 0, 0, 0.9524876300534464, -69.5, 33.0, 44.2)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud10_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9210119458235424, 0, 0, 0, 0.5526071674941254, 0, 0, 0, 0.9210119458235424, -74.2, 4.9, -260.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud10_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.8204007093329166, 0, 0, 0, 0.49224042559974995, 0, 0, 0, 0.8204007093329166, -67.2, 7.3, -259.2)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud10_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9188403882647131, 0, 0, 0, 0.5513042329588279, 0, 0, 0, 0.9188403882647131, -60.2, 5.4, -260.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud11_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.5822584001182882, 0, 0, 0, 0.9493550400709729, 0, 0, 0, 1.5822584001182882, 70.9, 8.0, -104.9)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud11_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.91529399217479, 0, 0, 0, 0.5491763953048739, 0, 0, 0, 0.91529399217479, 77.9, 8.8, -102.4)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud11_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.182897554807993, 0, 0, 0, 0.7097385328847957, 0, 0, 0, 1.182897554807993, 84.9, 8.7, -103.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud12_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.2345379407056916, 0, 0, 0, 0.7407227644234149, 0, 0, 0, 1.2345379407056916, -123.1, 19.5, -212.9)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud12_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.5828009941751784, 0, 0, 0, 0.9496805965051069, 0, 0, 0, 1.5828009941751784, -116.1, 22.0, -211.9)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud12_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.0088921577834897, 0, 0, 0, 0.6053352946700938, 0, 0, 0, 1.0088921577834897, -109.1, 20.5, -215.1)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud13_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.9784333384825481, 0, 0, 0, 0.5870600030895289, 0, 0, 0, 0.9784333384825481, -89.6, 29.6, -151.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud13_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.4821030389973284, 0, 0, 0, 0.889261823398397, 0, 0, 0, 1.4821030389973284, -82.6, 29.6, -152.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud13_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.3918984163005712, 0, 0, 0, 0.8351390497803427, 0, 0, 0, 1.3918984163005712, -75.6, 27.8, -154.4)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud14_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.1777920499990844, 0, 0, 0, 0.7066752299994506, 0, 0, 0, 1.1777920499990844, 91.5, 34.3, -6.5)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud14_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.0754247394038896, 0, 0, 0, 0.6452548436423338, 0, 0, 0, 1.0754247394038896, 98.5, 36.1, -5.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud14_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.0796157297790088, 0, 0, 0, 0.6477694378674053, 0, 0, 0, 1.0796157297790088, 105.5, 36.6, -9.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud15_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.2992531179502547, 0, 0, 0, 0.7795518707701528, 0, 0, 0, 1.2992531179502547, -65.1, 11.8, -192.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud15_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.1835787410092307, 0, 0, 0, 0.7101472446055384, 0, 0, 0, 1.1835787410092307, -58.1, 11.1, -192.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud15_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.8678227891603041, 0, 0, 0, 0.5206936734961825, 0, 0, 0, 0.8678227891603041, -51.1, 11.1, -192.1)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud16_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.0660137598916881, 0, 0, 0, 0.6396082559350128, 0, 0, 0, 1.0660137598916881, -85.2, 10.9, -4.6)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud16_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.1166707960555586, 0, 0, 0, 0.6700024776333352, 0, 0, 0, 1.1166707960555586, -78.2, 9.7, -4.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud16_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.379838932507372, 0, 0, 0, 0.8279033595044233, 0, 0, 0, 1.379838932507372, -71.2, 9.0, -9.7)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud17_0" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.2892586697728068, 0, 0, 0, 0.7735552018636841, 0, 0, 0, 1.2892586697728068, -94.3, 19.2, -50.3)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud17_1" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(1.5499740085030052, 0, 0, 0, 0.929984405101803, 0, 0, 0, 1.5499740085030052, -87.3, 17.9, -49.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="Cloud17_2" type="MeshInstance3D" parent="Clouds"]
+transform = Transform3D(0.8171173394575294, 0, 0, 0, 0.49027040367451763, 0, 0, 0, 0.8171173394575294, -80.3, 19.8, -48.8)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_cloud")
+
+[node name="GPUPlatform1" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+platform_scale = 1.6
+
+[node name="GPU1" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.3, 4.0)
+
+[node name="GPU2" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.3, 0.0)
+
+[node name="GPU3" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.3, -4.0)
+
+[node name="GPU4" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.3, -8.0)
+
+[node name="GPUPlatform2" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0.5, -25)
+
+[node name="GPU5" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.8, -12.0)
+
+[node name="GPU6" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 4.3, -15.5)
+
+[node name="GPU7" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.8, -19.0)
+
+[node name="GPU8" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1.8, -22.0)
+
+[node name="GPU9" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.8, -26.0)
+
+[node name="GPU10" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.8, -30.0)
+
+[node name="Enemy1" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -28)
+character = ExtResource("punk")
+
+[node name="GPUPlatform3" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -39.5)
+platform_scale = 0.7
+move_offset = Vector3(6, 0, 0)
+move_period = 4.0
+
+[node name="GPU11" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -39.5)
+
+[node name="GPUPlatform4" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -51)
+platform_scale = 1.2
+
+[node name="Checkpoint1" parent="Course" instance=ExtResource("checkpoint")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -46.5)
+
+[node name="Spinner1" parent="Course" instance=ExtResource("spinner")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -51.5)
+spin_speed = 80
+
+[node name="GPU12" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.0, 2.3, -51.0)
+
+[node name="GPU13" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.3, -51.0)
+
+[node name="GPU14" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 2.3, -51.0)
+
+[node name="GPU15" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2.3, -51.0)
+
+[node name="GPU16" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.0, 2.3, -51.0)
+
+[node name="GPUPlatform5" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -66)
+platform_scale = 0.9
+spin_speed = 35
+
+[node name="GPU17" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, -66)
+
+[node name="GPU18" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -59)
+
+[node name="GPUPlatform6" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 1, -86)
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.1, -82)
+character = ExtResource("witch")
+
+[node name="Enemy3" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.1, -88)
+character = ExtResource("casual")
+
+[node name="GPU19" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0, 2.3, -80.0)
+
+[node name="GPU20" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 2.3, -83.0)
+
+[node name="GPU21" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0, 2.3, -86.0)
+
+[node name="BouncePad1" parent="Course" instance=ExtResource("bounce_pad")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -91)
+
+[node name="GPU22" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 4.0, -91.0)
+
+[node name="GPU23" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 7.0, -93.0)
+
+[node name="GPU24" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 10.0, -95.0)
+
+[node name="GPUPlatform7" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 9, -106)
+platform_scale = 1.2
+
+[node name="Checkpoint2" parent="Course" instance=ExtResource("checkpoint")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -98.5)
+
+[node name="Spinner2" parent="Course" instance=ExtResource("spinner")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -110)
+spin_speed = -100
+
+[node name="Enemy4" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 9.1, -102)
+character = ExtResource("soldier")
+
+[node name="Enemy5" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 9.1, -100.5)
+character = ExtResource("suit")
+
+[node name="GPU25" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 10.3, -104.0)
+
+[node name="GPU26" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 10.3, -108.0)
+
+[node name="GPU27" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 10.3, -112.0)
+
+[node name="GPU28" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 10.3, -104.0)
+
+[node name="GPU29" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 10.3, -108.0)
+
+[node name="GPU30" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 10.3, -112.0)
+
+[node name="GPUPlatform8" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 7, -122)
+platform_scale = 0.5
+
+[node name="GPUPlatform9" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 5, -131)
+platform_scale = 0.5
+move_offset = Vector3(0, 1.5, 0)
+move_period = 3.0
+
+[node name="GPUPlatform10" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3, -140)
+platform_scale = 0.5
+
+[node name="GPU31" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 8.3, -122)
+
+[node name="GPU32" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 6.3, -131)
+
+[node name="GPU33" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4.3, -140)
+
+[node name="GPUPlatform11" parent="Course" instance=ExtResource("platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -158)
+platform_scale = 1.6
+
+[node name="Enemy6" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.1, -156)
+character = ExtResource("witch")
+
+[node name="Enemy7" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.1, -156)
+character = ExtResource("punk")
+
+[node name="Enemy8" parent="Enemies" instance=ExtResource("enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -159)
+character = ExtResource("casual")
+
+[node name="GPU34" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0, 3.3, -153.0)
+
+[node name="GPU35" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 3.3, -153.0)
+
+[node name="GPU36" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3.3, -153.0)
+
+[node name="GPU37" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 3.3, -153.0)
+
+[node name="GPU38" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 3.3, -153.0)
+
+[node name="GPU39" parent="Pickups" instance=ExtResource("gpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 3.3, -153.0)
+
+[node name="Finish" parent="Course" instance=ExtResource("finish")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -163)

@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://gpu_platform.gd" id="1_platform"]
+[ext_resource type="PackedScene" path="res://assets/gpu_lite.glb" id="2_gpu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_platform"]
+size = Vector3(15.48, 2.555, 8.98)
+
+[node name="GPUPlatform" type="AnimatableBody3D"]
+script = ExtResource("1_platform")
+
+[node name="Model" parent="." instance=ExtResource("2_gpu")]
+transform = Transform3D(60, 0, 0, 0, 0, 60, 0, -60, 0, 11.84, -0.045, 2.46)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.278, 0)
+shape = SubResource("BoxShape3D_platform")
