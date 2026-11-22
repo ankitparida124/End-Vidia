@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dimgwg48226f8"]
+
+[ext_resource type="PackedScene" uid="uid://dmqjdvyrxkx5s" path="res://assets/gpu.glb" id="1_tgo4v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8vrlf"]
+size = Vector3(0.5062256, 1.2246094, 0.6645508)
+
+[node name="Area3D" type="Area3D" unique_id=150649078]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=157879592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.061462402, 0.11230469, 0.2826153)
+shape = SubResource("BoxShape3D_8vrlf")
+
+[node name="Sketchfab_Scene" parent="." unique_id=1060232058 instance=ExtResource("1_tgo4v")]
+transform = Transform3D(-0.4659304, 5.0274696, 0.0020784023, -4.8188252, -0.48606646, -0.0018151739, -0.011197066, -0.016311342, 0.6946967, 0.44498664, 0.16236413, 1.3958136)
